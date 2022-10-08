@@ -2,7 +2,7 @@ import { Component, createSignal, For, splitProps } from "solid-js";
 import { render } from "solid-js/web";
 import { PieceType, BoardSquare, defaultBoard, Piece } from "../defaultBoard";
 import { classNames } from "../utils/styling";
-import PieceDragging from "./PieceDragging";
+import { setDragElement } from "./dragHandler";
 
 const SIZE = 8;
 
@@ -53,50 +53,20 @@ const Square: Component<SquareProps> = (props) => {
     ? "bg-white"
     : "bg-amber-900";
 
-  let mouseDown = false;
-  let xPosOnDrag;
-  let yPosOnDrag;
-
-  const handleMouseMove = (e: MouseEvent) => {
-    const imageBoundingRect = imageRef.getBoundingClientRect();
-
-    const xOffset = e.clientX - imageBoundingRect.width / 2 - xPosOnDrag;
-    const yOffset = e.clientY - imageBoundingRect.height / 2 - yPosOnDrag;
-    imageRef.style.transform = `translate(${xOffset}px,${yOffset}px)`;
-  };
   const handleMouseDown = (e: MouseEvent) => {
     if (!imageRef) return;
 
-    mouseDown = true;
     const imageBoundingRect = imageRef.getBoundingClientRect();
 
-    //get a refrence to the current x and y pos
-    xPosOnDrag = imageBoundingRect.x;
-    yPosOnDrag = imageBoundingRect.y;
+    const xOffset =
+      e.clientX - imageBoundingRect.width / 2 - imageBoundingRect.x;
+    const yOffset =
+      e.clientY - imageBoundingRect.height / 2 - imageBoundingRect.y;
 
-    const xOffset = e.clientX - imageBoundingRect.width / 2 - xPosOnDrag;
-    const yOffset = e.clientY - imageBoundingRect.height / 2 - yPosOnDrag;
-    imageRef.style.transform = `translate(${xOffset}px,${yOffset}px)`;
-
-    console.log({
-      x: imageBoundingRect.x,
-      y: imageBoundingRect.y,
-      clientX: e.clientX,
-      clientY: e.clientY,
-      xOffset,
-      yOffset,
-    });
-
-    document.addEventListener("mousemove", handleMouseMove);
-    // const img = document.createElement("img");
-    // render(
-    //   () => <PieceDragging square={props.square} containerRef={ref} />,
-    //   document.getElementById("root") as HTMLElement
-    // );
+    setDragElement(imageRef, xOffset, yOffset);
   };
   const handleMouseUp = (e: MouseEvent) => {
     console.log("mouseup at " + props.square.position);
-    document.removeEventListener("mousemove", handleMouseMove);
   };
   return (
     <div
