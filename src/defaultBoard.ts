@@ -1,4 +1,4 @@
-export enum Piece {
+export enum PieceType {
   PAWN = "pawn",
   BISHOP = "bishop",
   KNIGHT = "knight",
@@ -6,73 +6,77 @@ export enum Piece {
   QUEEN = "queen",
   KING = "king",
 }
+export interface Piece {
+  type: PieceType;
+  color: "white" | "black";
+}
 export interface BoardSquare {
   position: string;
   piece: Piece | null;
 }
 export const defaultBoard: BoardSquare[] = [
   {
-    piece: Piece.ROOK,
+    piece: { type: PieceType.ROOK, color: "black" },
     position: "a8",
   },
   {
-    piece: Piece.KNIGHT,
+    piece: { type: PieceType.KNIGHT, color: "black" },
     position: "b8",
   },
   {
-    piece: Piece.BISHOP,
+    piece: { type: PieceType.BISHOP, color: "black" },
     position: "c8",
   },
   {
-    piece: Piece.QUEEN,
+    piece: { type: PieceType.QUEEN, color: "black" },
     position: "d8",
   },
   {
-    piece: Piece.KING,
+    piece: { type: PieceType.KING, color: "black" },
     position: "e8",
   },
   {
-    piece: Piece.BISHOP,
+    piece: { type: PieceType.BISHOP, color: "black" },
     position: "f8",
   },
   {
-    piece: Piece.KNIGHT,
+    piece: { type: PieceType.KNIGHT, color: "black" },
     position: "g8",
   },
   {
-    piece: Piece.ROOK,
+    piece: { type: PieceType.ROOK, color: "black" },
     position: "h8",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "a7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "b7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "c7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "d7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "e7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "f7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "g7",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "black" },
     position: "h7",
   },
   {
@@ -204,67 +208,67 @@ export const defaultBoard: BoardSquare[] = [
     piece: null,
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "a2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "b2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "c2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "d2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "e2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "f2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "g2",
   },
   {
-    piece: Piece.PAWN,
+    piece: { type: PieceType.PAWN, color: "white" },
     position: "h2",
   },
   {
-    piece: Piece.ROOK,
+    piece: { type: PieceType.ROOK, color: "white" },
     position: "a1",
   },
   {
-    piece: Piece.KNIGHT,
+    piece: { type: PieceType.KNIGHT, color: "white" },
     position: "b1",
   },
   {
-    piece: Piece.BISHOP,
+    piece: { type: PieceType.BISHOP, color: "white" },
     position: "c1",
   },
   {
-    piece: Piece.QUEEN,
+    piece: { type: PieceType.QUEEN, color: "white" },
     position: "d1",
   },
   {
-    piece: Piece.KING,
+    piece: { type: PieceType.KING, color: "white" },
     position: "e1",
   },
   {
-    piece: Piece.BISHOP,
+    piece: { type: PieceType.BISHOP, color: "white" },
     position: "f1",
   },
   {
-    piece: Piece.KNIGHT,
+    piece: { type: PieceType.KNIGHT, color: "white" },
     position: "g1",
   },
   {
-    piece: Piece.ROOK,
+    piece: { type: PieceType.ROOK, color: "white" },
     position: "h1",
   },
 ];
