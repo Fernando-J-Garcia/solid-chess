@@ -11,6 +11,30 @@ const App: Component = () => {
         <div class="flex flex-1 pb-4">
           <Chessboard />
         </div>
+        <footer class="text-center">
+          <div class="font-semibold">
+            Made By{" "}
+            <a
+              class="cursor-pointer hover:underline"
+              href="https://github.com/Fernando-J-Garcia"
+              target="_blank"
+            >
+              Fernando Garcia
+            </a>
+          </div>
+          <div class="font-thin">
+            Chess Pieces By{" "}
+            <span>
+              <a
+                class="cursor-pointer hover:underline"
+                href="https://www.figma.com/@swierq"
+                target="_blank"
+              >
+                Maciej Świerczek
+              </a>
+            </span>
+          </div>
+        </footer>
       </div>
     </div>
   );
