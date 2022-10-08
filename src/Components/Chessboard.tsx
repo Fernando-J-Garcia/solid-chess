@@ -97,7 +97,7 @@ const Square: Component<SquareProps> = (props) => {
   };
   return (
     <div
-      class={"relative"}
+      class="relative"
       onMouseDown={handleMouseDown}
       ref={ref}
       onMouseUp={handleMouseUp}
@@ -107,7 +107,7 @@ const Square: Component<SquareProps> = (props) => {
         <div class="absolute inset-0 z-10">
           <img
             src={`/assets/${props.square.piece.type}_${props.square.piece.color}.png`}
-            class="h-full w-full p-2"
+            class="h-full w-full cursor-grab p-2"
             ref={imageRef}
             draggable={false}
           />

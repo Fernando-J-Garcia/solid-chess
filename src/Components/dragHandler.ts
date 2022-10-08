@@ -38,6 +38,7 @@ export function setDragElement(
   yPosOnDrag = imageBoundingRect.y;
 
   el.style.transform = `translate(${xPos}px,${yPos}px)`;
+  el.style.cursor = "grabbing";
 }
 
 export function removeDragElement() {
@@ -50,7 +51,6 @@ export function removeDragElement() {
 
 function handleMouseMove(e: MouseEvent) {
   if (!dragElement) return;
-
   const imageBoundingRect = dragElement.getBoundingClientRect();
 
   const xOffset = e.clientX - imageBoundingRect.width / 2 - xPosOnDrag;
