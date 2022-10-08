@@ -1,5 +1,6 @@
-let initialed = false;
+let initialized = false;
 let dragElement: HTMLElement | null = null;
+let dragElementIndex: number | null = null;
 
 let xPosOnDrag;
 let yPosOnDrag;
@@ -7,16 +8,26 @@ let yPosOnDrag;
 function init() {
   document.addEventListener("mousemove", handleMouseMove);
   document.addEventListener("mouseup", handleMouseUp);
-  initialed = true;
+  initialized = true;
 }
 
 export function getDragElement() {
   return dragElement;
 }
 
-export function setDragElement(el: HTMLElement, xPos: number, yPos: number) {
-  if (!initialed) init();
+export function getDragElementIndex() {
+  return dragElementIndex;
+}
+
+export function setDragElement(
+  el: HTMLElement,
+  index: number,
+  xPos: number,
+  yPos: number
+) {
+  if (!initialized) init();
   dragElement = el;
+  dragElementIndex = index;
 
   el.style.pointerEvents = "none";
 
@@ -34,6 +45,7 @@ export function removeDragElement() {
   dragElement.style.transform = "";
   dragElement.style.pointerEvents = "auto";
   dragElement = null;
+  dragElementIndex = null;
 }
 
 function handleMouseMove(e: MouseEvent) {
