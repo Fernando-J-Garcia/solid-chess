@@ -13,21 +13,9 @@ import {
   getDragElementIndex,
   setDragElement,
 } from "./dragHandler";
+import { MoveIsValid } from "./moveValidator";
 
 const SIZE = 8;
-
-function MoveIsValid(squareStart: BoardSquare, squareDestination: BoardSquare) {
-  //TODO: PIECE Move rules go here
-
-  //is the slot occupied?
-  if (squareDestination.piece) {
-    //if so, Check if the piece is the same color...
-    if (squareDestination.piece.color === squareStart.piece.color) {
-      return false;
-    }
-  }
-  return true;
-}
 
 const Chessboard: Component = () => {
   const [board, setBoard] = createSignal<BoardSquare[]>(defaultBoard);
