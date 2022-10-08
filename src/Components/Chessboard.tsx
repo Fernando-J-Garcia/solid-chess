@@ -1,6 +1,8 @@
-import { createSignal, For } from "solid-js";
+import { Component, createSignal, For, splitProps } from "solid-js";
+import { render } from "solid-js/web";
 import { PieceType, BoardSquare, defaultBoard, Piece } from "../defaultBoard";
 import { classNames } from "../utils/styling";
+import PieceDragging from "./PieceDragging";
 
 const SIZE = 8;
 
@@ -38,28 +40,83 @@ interface SquareProps {
   index: number;
   square: BoardSquare;
 }
-const Square = ({ index, square }: SquareProps) => {
+const Square: Component<SquareProps> = (props) => {
+  let ref: HTMLDivElement;
+  let imageRef: HTMLImageElement;
   //check if the row number is even
-  const isRowEven = parseInt(square.position.charAt(1)) % 2 === 0;
+  const isRowEven = parseInt(props.square.position.charAt(1)) % 2 === 0;
   const color = isRowEven
-    ? index % 2 === 0
+    ? props.index % 2 === 0
       ? "bg-white"
       : "bg-amber-900"
-    : index % 2 !== 0
+    : props.index % 2 !== 0
     ? "bg-white"
     : "bg-amber-900";
+
+  let mouseDown = false;
+  let xPosOnDrag;
+  let yPosOnDrag;
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const imageBoundingRect = imageRef.getBoundingClientRect();
+
+    const xOffset = e.clientX - imageBoundingRect.width / 2 - xPosOnDrag;
+    const yOffset = e.clientY - imageBoundingRect.height / 2 - yPosOnDrag;
+    imageRef.style.transform = `translate(${xOffset}px,${yOffset}px)`;
+  };
+  const handleMouseDown = (e: MouseEvent) => {
+    if (!imageRef) return;
+
+    mouseDown = true;
+    const imageBoundingRect = imageRef.getBoundingClientRect();
+
+    //get a refrence to the current x and y pos
+    xPosOnDrag = imageBoundingRect.x;
+    yPosOnDrag = imageBoundingRect.y;
+
+    const xOffset = e.clientX - imageBoundingRect.width / 2 - xPosOnDrag;
+    const yOffset = e.clientY - imageBoundingRect.height / 2 - yPosOnDrag;
+    imageRef.style.transform = `translate(${xOffset}px,${yOffset}px)`;
+
+    console.log({
+      x: imageBoundingRect.x,
+      y: imageBoundingRect.y,
+      clientX: e.clientX,
+      clientY: e.clientY,
+      xOffset,
+      yOffset,
+    });
+
+    document.addEventListener("mousemove", handleMouseMove);
+    // const img = document.createElement("img");
+    // render(
+    //   () => <PieceDragging square={props.square} containerRef={ref} />,
+    //   document.getElementById("root") as HTMLElement
+    // );
+  };
+  const handleMouseUp = (e: MouseEvent) => {
+    console.log("mouseup at " + props.square.position);
+    document.removeEventListener("mousemove", handleMouseMove);
+  };
   return (
-    <div class={classNames(color, "relative")}>
-      {square.piece && (
+    <div
+      class={classNames(color, "relative")}
+      onMouseDown={handleMouseDown}
+      ref={ref}
+      onMouseUp={handleMouseUp}
+    >
+      {props.square.piece && (
         <div class="absolute inset-0">
           <img
-            src={`/assets/${square.piece.type}_${square.piece.color}.png`}
+            src={`/assets/${props.square.piece.type}_${props.square.piece.color}.png`}
             class="h-full w-full p-2"
+            ref={imageRef}
+            draggable={false}
           />
         </div>
       )}
       <div class="absolute p-1 text-black text-opacity-50">
-        {square.position}
+        {props.square.position}
       </div>
     </div>
   );
