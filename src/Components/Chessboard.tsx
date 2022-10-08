@@ -15,25 +15,20 @@ import {
 } from "./dragHandler";
 
 const SIZE = 8;
-// const generated: BoardSquare[] = [];
-// const A_CHAR_CODE = 97;
-// for (let i = SIZE; i > 0; i--) {
-//   for (let j = 0; j < SIZE; j++) {
-//     const charCode = A_CHAR_CODE + j;
-//     const position = `${String.fromCharCode(charCode)}${i}`;
-//     board.push(position);
-//     generated.push({ position, piece: null });
-//   }
-// }
-// const newBoard = generated.map((el) => {
-//   for (const d of defaultBoard) {
-//     if (el.position === d.position) {
-//       return d;
-//     }
-//   }
-//   return el;
-// });
-// console.log(newBoard);
+
+function MoveIsValid(squareStart: BoardSquare, squareDestination: BoardSquare) {
+  //TODO: PIECE Move rules go here
+
+  //is the slot occupied?
+  if (squareDestination.piece) {
+    //if so, Check if the piece is the same color...
+    if (squareDestination.piece.color === squareStart.piece.color) {
+      return false;
+    }
+  }
+  return true;
+}
+
 const Chessboard: Component = () => {
   const [board, setBoard] = createSignal<BoardSquare[]>(defaultBoard);
   createEffect(() => {
@@ -45,12 +40,19 @@ const Chessboard: Component = () => {
     destinationIndex: number
   ) {
     console.log(board()[index].piece);
-    const piece: Piece = board()[index].piece;
+    const squareStart = board()[index];
 
+    //TODO: Implement Evaluate valid Move Here...
+    if (!MoveIsValid(squareStart, squareDestination)) {
+      return;
+    }
     const newBoard = [...board()];
+    newBoard[index] = { ...newBoard[index], piece: null };
+    newBoard[destinationIndex] = {
+      ...newBoard[destinationIndex],
+      piece: { ...squareStart.piece },
+    };
 
-    newBoard[index] = { ...newBoard[index], piece: squareDestination.piece };
-    newBoard[destinationIndex] = { ...newBoard[destinationIndex], piece };
     setBoard(newBoard);
   }
   return (
