@@ -1,5 +1,5 @@
 import { createSignal, For } from "solid-js";
-import { Piece, BoardSquare, defaultBoard } from "../defaultBoard";
+import { PieceType, BoardSquare, defaultBoard, Piece } from "../defaultBoard";
 import { classNames } from "../utils/styling";
 
 const SIZE = 8;
@@ -51,8 +51,11 @@ const Square = ({ index, square }: SquareProps) => {
   return (
     <div class={classNames(color, "relative")}>
       {square.piece && (
-        <div>
-          <img src={getPieceImage(square.piece)} />
+        <div class="absolute inset-0">
+          <img
+            src={`/assets/${square.piece.type}_${square.piece.color}.png`}
+            class="h-full w-full p-2"
+          />
         </div>
       )}
       <div class="absolute p-1 text-black text-opacity-50">
@@ -61,13 +64,4 @@ const Square = ({ index, square }: SquareProps) => {
     </div>
   );
 };
-
-function getPieceImage(piece: Piece) {
-  switch (piece) {
-    case Piece.PAWN:
-      return "";
-    case Piece.BISHOP:
-      return "";
-  }
-}
 export default Chessboard;
