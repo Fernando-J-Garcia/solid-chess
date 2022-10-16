@@ -13,7 +13,7 @@ import {
   getDragElementIndex,
   setDragElement,
 } from "./dragHandler";
-import { MoveIsValid } from "./moveValidator";
+import { generateAllPossibleMoves, MoveIsValid } from "./moveValidator";
 
 const SIZE = 8;
 
@@ -31,7 +31,7 @@ const Chessboard: Component = () => {
     const squareStart = board()[index];
 
     //TODO: Implement Evaluate valid Move Here...
-    if (!MoveIsValid(squareStart, squareDestination)) {
+    if (!MoveIsValid(squareStart, squareDestination, board())) {
       return;
     }
     const newBoard = [...board()];
@@ -48,7 +48,14 @@ const Chessboard: Component = () => {
       <For each={board()}>
         {(square, i) => {
           console.log(square);
-          return <Square index={i()} square={square} handleMove={handleMove} />;
+          return (
+            <Square
+              index={i()}
+              square={square}
+              board={board()}
+              handleMove={handleMove}
+            />
+          );
         }}
       </For>
     </div>
@@ -58,6 +65,7 @@ const Chessboard: Component = () => {
 interface SquareProps {
   index: number;
   square: BoardSquare;
+  board: BoardSquare[];
   handleMove: (
     index: number,
     squareDestination: BoardSquare,
@@ -88,6 +96,9 @@ const Square: Component<SquareProps> = (props) => {
       e.clientY - imageBoundingRect.height / 2 - imageBoundingRect.y;
 
     setDragElement(imageRef, props.index, xOffset, yOffset);
+
+    //Check all possible moves
+    generateAllPossibleMoves(props.square, props.board);
   };
   const handleMouseUp = (e: MouseEvent) => {
     console.log("mouseup at " + props.square.position);
